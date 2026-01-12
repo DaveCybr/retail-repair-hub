@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import NewTransactionForm from "./pages/sales/TransactionForm";
 import { Wrapper } from "./components/layout/Wrapper";
+import TransactionListPage from "./pages/sales/TransactionListPage";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +24,14 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
 
             {/* transaction routes */}
-            <Route path="/sales" element={<Index />} />
+            <Route
+              path="/sales/transactions"
+              element={
+                <Wrapper>
+                  <TransactionListPage />
+                </Wrapper>
+              }
+            />
             <Route
               path="/sales/new"
               element={
