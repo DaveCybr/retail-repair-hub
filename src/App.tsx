@@ -39,7 +39,7 @@ const App = () => (
               path="/sales/new"
               element={
                 <Wrapper>
-                  <NewTransactionForm />
+                  <EnhancedPOSForm />
                 </Wrapper>
               }
             />
@@ -77,7 +77,7 @@ const App = () => (
               path="/services/new"
               element={
                 <Wrapper>
-                  <NewTransactionForm />
+                  <EnhancedPOSForm />
                 </Wrapper>
               }
             />
