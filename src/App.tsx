@@ -11,6 +11,7 @@ import { Wrapper } from "./components/layout/Wrapper";
 import TransactionListPage from "./pages/sales/TransactionListPage";
 import CustomerListPage from "./pages/customers/CustomerListPage";
 import ProductListPage from "./pages/inventory/ProductListPage";
+import ServiceListPage from "./pages/services/ServiceListPage";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +26,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="*" element={<NotFound />} />
 
-            {/* transaction routes */}
+            {/* Transaction routes */}
             <Route
               path="/sales/transactions"
               element={
@@ -42,7 +43,8 @@ const App = () => (
                 </Wrapper>
               }
             />
-            {/* Customers */}
+
+            {/* Customer routes */}
             <Route
               path="/customers"
               element={
@@ -51,7 +53,8 @@ const App = () => (
                 </Wrapper>
               }
             />
-            {/* Inventory */}
+
+            {/* Inventory routes */}
             <Route
               path="/inventory"
               element={
@@ -60,7 +63,24 @@ const App = () => (
                 </Wrapper>
               }
             />
-            {/* Reports */}
+
+            {/* Service routes */}
+            <Route
+              path="/services/orders"
+              element={
+                <Wrapper>
+                  <ServiceListPage />
+                </Wrapper>
+              }
+            />
+            <Route
+              path="/services/new"
+              element={
+                <Wrapper>
+                  <NewTransactionForm />
+                </Wrapper>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
