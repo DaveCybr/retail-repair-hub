@@ -135,6 +135,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "checkin_logs_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "checkin_logs_service_item_id_fkey"
             columns: ["service_item_id"]
             isOneToOne: false
@@ -492,6 +499,13 @@ export type Database = {
             referencedRelation: "employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "service_assignments_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "employees_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       service_items: {
@@ -562,6 +576,13 @@ export type Database = {
             columns: ["technician_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_items_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "employees_public"
             referencedColumns: ["id"]
           },
         ]
@@ -766,6 +787,13 @@ export type Database = {
             referencedRelation: "employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "technician_skills_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       transaction_details: {
@@ -958,7 +986,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      employees_public: {
+        Row: {
+          created_at: string | null
+          current_workload: number | null
+          id: number | null
+          is_available: boolean | null
+          is_queue_locked: boolean | null
+          max_workload: number | null
+          name: string | null
+          status: Database["public"]["Enums"]["employee_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_workload?: number | null
+          id?: number | null
+          is_available?: boolean | null
+          is_queue_locked?: boolean | null
+          max_workload?: number | null
+          name?: string | null
+          status?: Database["public"]["Enums"]["employee_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_workload?: number | null
+          id?: number | null
+          is_available?: boolean | null
+          is_queue_locked?: boolean | null
+          max_workload?: number | null
+          name?: string | null
+          status?: Database["public"]["Enums"]["employee_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       get_employee_id_for_user: { Args: { _user_id: string }; Returns: number }
