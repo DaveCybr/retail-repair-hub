@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { PageHeader } from '@/components/layout/PageHeader';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -17,30 +17,34 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { CustomerForm } from '@/components/customers/CustomerForm';
-import { CustomerCategoryBadge } from '@/components/customers/CustomerCategoryBadge';
-import { useCustomers } from '@/hooks/useCustomers';
-import { Customer, CustomerCategory, customerCategoryLabels } from '@/types/database';
-import { 
-  Plus, 
-  Search, 
-  MoreHorizontal, 
-  Pencil, 
-  Trash2, 
+} from "@/components/ui/dropdown-menu";
+import { CustomerForm } from "@/components/customers/CustomerForm";
+import { CustomerCategoryBadge } from "@/components/customers/CustomerCategoryBadge";
+import { useCustomers } from "@/hooks/useCustomers";
+import {
+  Customer,
+  CustomerCategory,
+  customerCategoryLabels,
+} from "@/types/database";
+import {
+  Plus,
+  Search,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
   Eye,
   Phone,
   Mail,
   MapPin,
-  Users
-} from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+  Users,
+} from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -50,32 +54,40 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 export default function CustomerListPage() {
-  const { customers, loading, createCustomer, updateCustomer, deleteCustomer } = useCustomers();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const { customers, loading, createCustomer, updateCustomer, deleteCustomer } =
+    useCustomers();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [showForm, setShowForm] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
-  const [deletingCustomer, setDeletingCustomer] = useState<Customer | null>(null);
+  const [deletingCustomer, setDeletingCustomer] = useState<Customer | null>(
+    null
+  );
 
-  const filteredCustomers = customers.filter(customer => {
-    const matchesSearch = 
+  const filteredCustomers = customers.filter((customer) => {
+    const matchesSearch =
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.phone?.includes(searchTerm) ||
       customer.member_number?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = categoryFilter === 'all' || customer.category === categoryFilter;
-    
+
+    const matchesCategory =
+      categoryFilter === "all" || customer.category === categoryFilter;
+
     return matchesSearch && matchesCategory;
   });
 
-  const handleCreate = async (data: Omit<Customer, 'id' | 'created_at' | 'updated_at'>) => {
+  const handleCreate = async (
+    data: Omit<Customer, "id" | "created_at" | "updated_at">
+  ) => {
     await createCustomer(data);
   };
 
-  const handleUpdate = async (data: Omit<Customer, 'id' | 'created_at' | 'updated_at'>) => {
+  const handleUpdate = async (
+    data: Omit<Customer, "id" | "created_at" | "updated_at">
+  ) => {
     if (editingCustomer) {
       await updateCustomer(editingCustomer.id, data);
       setEditingCustomer(null);
@@ -90,7 +102,8 @@ export default function CustomerListPage() {
   };
 
   return (
-    <MainLayout>
+    // <MainLayout>
+    <>
       <div className="space-y-6">
         <PageHeader
           title="Pelanggan"
@@ -121,7 +134,7 @@ export default function CustomerListPage() {
               <div>
                 <p className="text-sm text-muted-foreground">{label}</p>
                 <p className="text-2xl font-bold">
-                  {customers.filter(c => c.category === cat).length}
+                  {customers.filter((c) => c.category === cat).length}
                 </p>
               </div>
             </div>
@@ -146,7 +159,9 @@ export default function CustomerListPage() {
             <SelectContent>
               <SelectItem value="all">Semua Kategori</SelectItem>
               {Object.entries(customerCategoryLabels).map(([value, label]) => (
-                <SelectItem key={value} value={value}>{label}</SelectItem>
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -168,19 +183,32 @@ export default function CustomerListPage() {
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-8" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-32" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-16" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-8" />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : filteredCustomers.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                    {searchTerm || categoryFilter !== 'all' 
-                      ? 'Tidak ada pelanggan yang cocok dengan filter'
-                      : 'Belum ada data pelanggan'}
+                  <TableCell
+                    colSpan={5}
+                    className="text-center py-8 text-muted-foreground"
+                  >
+                    {searchTerm || categoryFilter !== "all"
+                      ? "Tidak ada pelanggan yang cocok dengan filter"
+                      : "Belum ada data pelanggan"}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -218,7 +246,9 @@ export default function CustomerListPage() {
                     </TableCell>
                     <TableCell>
                       {customer.member_number ? (
-                        <span className="font-mono text-sm">{customer.member_number}</span>
+                        <span className="font-mono text-sm">
+                          {customer.member_number}
+                        </span>
                       ) : (
                         <span className="text-muted-foreground text-sm">-</span>
                       )}
@@ -231,11 +261,13 @@ export default function CustomerListPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => setEditingCustomer(customer)}>
+                          <DropdownMenuItem
+                            onClick={() => setEditingCustomer(customer)}
+                          >
                             <Pencil className="w-4 h-4 mr-2" />
                             Edit
                           </DropdownMenuItem>
-                          <DropdownMenuItem 
+                          <DropdownMenuItem
                             onClick={() => setDeletingCustomer(customer)}
                             className="text-destructive"
                           >
@@ -269,23 +301,30 @@ export default function CustomerListPage() {
       />
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deletingCustomer} onOpenChange={(open) => !open && setDeletingCustomer(null)}>
+      <AlertDialog
+        open={!!deletingCustomer}
+        onOpenChange={(open) => !open && setDeletingCustomer(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Hapus Pelanggan?</AlertDialogTitle>
             <AlertDialogDescription>
-              Anda akan menghapus pelanggan "{deletingCustomer?.name}". 
-              Tindakan ini tidak dapat dibatalkan.
+              Anda akan menghapus pelanggan "{deletingCustomer?.name}". Tindakan
+              ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground">
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive text-destructive-foreground"
+            >
               Hapus
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </MainLayout>
+    </>
+    // </MainLayout>
   );
 }

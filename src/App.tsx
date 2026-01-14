@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import NewTransactionForm from "./pages/sales/TransactionForm";
 import { Wrapper } from "./components/layout/Wrapper";
 import TransactionListPage from "./pages/sales/TransactionListPage";
+import CustomerListPage from "./pages/customers/CustomerListPage";
+import ProductListPage from "./pages/inventory/ProductListPage";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,25 @@ const App = () => (
                 </Wrapper>
               }
             />
+            {/* Customers */}
+            <Route
+              path="/customers"
+              element={
+                <Wrapper>
+                  <CustomerListPage />
+                </Wrapper>
+              }
+            />
+            {/* Inventory */}
+            <Route
+              path="/inventory"
+              element={
+                <Wrapper>
+                  <ProductListPage />
+                </Wrapper>
+              }
+            />
+            {/* Reports */}
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Store } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Store } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
@@ -24,16 +24,18 @@ export default function Login() {
       if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) throw error;
-        toast.success('Welcome back!');
-        navigate('/');
+        toast.success("Welcome back!");
+        navigate("/");
       } else {
         const { error } = await signUp(email, password, fullName);
         if (error) throw error;
-        toast.success('Account created successfully!');
-        navigate('/');
+        toast.success("Account created successfully!");
+        navigate("/");
       }
     } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : 'Authentication failed');
+      toast.error(
+        error instanceof Error ? error.message : "Authentication failed"
+      );
     } finally {
       setLoading(false);
     }
@@ -47,7 +49,9 @@ export default function Login() {
             <Store className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-2xl font-bold">TechStore POS</h1>
-          <p className="text-muted-foreground mt-1">Sign in to manage your store</p>
+          <p className="text-muted-foreground mt-1">
+            Sign in to manage your store
+          </p>
         </div>
 
         <div className="bg-card rounded-xl border p-6 shadow-lg">
@@ -91,19 +95,13 @@ export default function Login() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
+              {loading
+                ? "Please wait..."
+                : isLogin
+                ? "Sign In"
+                : "Create Account"}
             </Button>
           </form>
-
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
-            </button>
-          </div>
         </div>
       </div>
     </div>

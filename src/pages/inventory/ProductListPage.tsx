@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { PageHeader } from '@/components/layout/PageHeader';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -18,51 +18,52 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useProducts } from '@/hooks/useProducts';
-import { formatCurrency } from '@/lib/format';
-import { 
-  Plus, 
-  Search, 
-  MoreHorizontal, 
-  Pencil, 
+} from "@/components/ui/dropdown-menu";
+import { useProducts } from "@/hooks/useProducts";
+import { formatCurrency } from "@/lib/format";
+import {
+  Plus,
+  Search,
+  MoreHorizontal,
+  Pencil,
   Package,
   AlertTriangle,
   TrendingDown,
-  ArrowUpDown
-} from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+  ArrowUpDown,
+} from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export default function ProductListPage() {
   const { products, categories, loading, getLowStockProducts } = useProducts();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
-  const [stockFilter, setStockFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [stockFilter, setStockFilter] = useState<string>("all");
 
   const lowStockProducts = getLowStockProducts();
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = 
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.serial_number?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = categoryFilter === 'all' || 
+
+    const matchesCategory =
+      categoryFilter === "all" ||
       product.category_id?.toString() === categoryFilter;
-    
-    const matchesStock = 
-      stockFilter === 'all' ||
-      (stockFilter === 'low' && product.stock <= product.min_stock) ||
-      (stockFilter === 'out' && product.stock === 0) ||
-      (stockFilter === 'in' && product.stock > product.min_stock);
-    
+
+    const matchesStock =
+      stockFilter === "all" ||
+      (stockFilter === "low" && product.stock <= product.min_stock) ||
+      (stockFilter === "out" && product.stock === 0) ||
+      (stockFilter === "in" && product.stock > product.min_stock);
+
     return matchesSearch && matchesCategory && matchesStock;
   });
 
@@ -71,13 +72,27 @@ export default function ProductListPage() {
       return <Badge variant="destructive">Habis</Badge>;
     }
     if (stock <= minStock) {
-      return <Badge variant="outline" className="bg-warning/10 text-warning border-warning">Stok Rendah</Badge>;
+      return (
+        <Badge
+          variant="outline"
+          className="bg-warning/10 text-warning border-warning"
+        >
+          Stok Rendah
+        </Badge>
+      );
     }
-    return <Badge variant="outline" className="bg-success/10 text-success border-success">Tersedia</Badge>;
+    return (
+      <Badge
+        variant="outline"
+        className="bg-success/10 text-success border-success"
+      >
+        Tersedia
+      </Badge>
+    );
   };
 
   return (
-    <MainLayout>
+    <>
       <div className="space-y-6">
         <PageHeader
           title="Inventori"
@@ -107,7 +122,9 @@ export default function ProductListPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Stok Rendah</p>
-                <p className="text-2xl font-bold text-warning">{lowStockProducts.length}</p>
+                <p className="text-2xl font-bold text-warning">
+                  {lowStockProducts.length}
+                </p>
               </div>
               <div className="w-10 h-10 rounded-lg bg-warning/20 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-warning" />
@@ -118,7 +135,7 @@ export default function ProductListPage() {
             <div>
               <p className="text-sm text-muted-foreground">Stok Habis</p>
               <p className="text-2xl font-bold text-destructive">
-                {products.filter(p => p.stock === 0).length}
+                {products.filter((p) => p.stock === 0).length}
               </p>
             </div>
           </div>
@@ -136,11 +153,18 @@ export default function ProductListPage() {
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-warning mt-0.5" />
               <div>
-                <h3 className="font-medium text-warning">Peringatan Stok Rendah</h3>
+                <h3 className="font-medium text-warning">
+                  Peringatan Stok Rendah
+                </h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {lowStockProducts.length} produk memiliki stok di bawah minimum: {' '}
-                  {lowStockProducts.slice(0, 3).map(p => p.name).join(', ')}
-                  {lowStockProducts.length > 3 && ` dan ${lowStockProducts.length - 3} lainnya`}
+                  {lowStockProducts.length} produk memiliki stok di bawah
+                  minimum:{" "}
+                  {lowStockProducts
+                    .slice(0, 3)
+                    .map((p) => p.name)
+                    .join(", ")}
+                  {lowStockProducts.length > 3 &&
+                    ` dan ${lowStockProducts.length - 3} lainnya`}
                 </p>
               </div>
             </div>
@@ -165,7 +189,9 @@ export default function ProductListPage() {
             <SelectContent>
               <SelectItem value="all">Semua Kategori</SelectItem>
               {categories.map((cat) => (
-                <SelectItem key={cat.id} value={cat.id.toString()}>{cat.name}</SelectItem>
+                <SelectItem key={cat.id} value={cat.id.toString()}>
+                  {cat.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -200,21 +226,40 @@ export default function ProductListPage() {
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-8" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-32" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-12" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-16" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-8" />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : filteredProducts.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    {searchTerm || categoryFilter !== 'all' || stockFilter !== 'all'
-                      ? 'Tidak ada produk yang cocok dengan filter'
-                      : 'Belum ada data produk'}
+                  <TableCell
+                    colSpan={7}
+                    className="text-center py-8 text-muted-foreground"
+                  >
+                    {searchTerm ||
+                    categoryFilter !== "all" ||
+                    stockFilter !== "all"
+                      ? "Tidak ada produk yang cocok dengan filter"
+                      : "Belum ada data produk"}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -230,9 +275,7 @@ export default function ProductListPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell>
-                      {product.category?.name || '-'}
-                    </TableCell>
+                    <TableCell>{product.category?.name || "-"}</TableCell>
                     <TableCell className="text-right">
                       {formatCurrency(product.cost_price)}
                     </TableCell>
@@ -240,14 +283,21 @@ export default function ProductListPage() {
                       {formatCurrency(product.sell_price)}
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className={cn(
-                        "font-semibold",
-                        product.stock === 0 && "text-destructive",
-                        product.stock <= product.min_stock && product.stock > 0 && "text-warning"
-                      )}>
+                      <span
+                        className={cn(
+                          "font-semibold",
+                          product.stock === 0 && "text-destructive",
+                          product.stock <= product.min_stock &&
+                            product.stock > 0 &&
+                            "text-warning"
+                        )}
+                      >
                         {product.stock}
                       </span>
-                      <span className="text-muted-foreground text-sm"> {product.unit}</span>
+                      <span className="text-muted-foreground text-sm">
+                        {" "}
+                        {product.unit}
+                      </span>
                     </TableCell>
                     <TableCell>
                       {getStockBadge(product.stock, product.min_stock)}
@@ -279,6 +329,6 @@ export default function ProductListPage() {
           </Table>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }
