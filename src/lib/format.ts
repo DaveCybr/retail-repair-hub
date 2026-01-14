@@ -1,4 +1,6 @@
 // Formatting utilities for the POS system
+import { formatDistanceToNow } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('id-ID', {
@@ -38,4 +40,8 @@ export function formatPhone(phone: string | null): string {
 
 export function truncateId(id: string, length = 8): string {
   return id.slice(0, length).toUpperCase();
+}
+
+export function formatRelativeTime(date: string | Date): string {
+  return formatDistanceToNow(new Date(date), { addSuffix: true, locale: id });
 }
